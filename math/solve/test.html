@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Permutation Calculator</title>
+  </head>
+  <body>
+    <h1>Permutation Calculator</h1>
+    <p>Enter a comma-separated list of elements:</p>
+    <input type="text" id="elements-input" placeholder="e.g., a, b, c" />
+    <button onclick="calculatePermutations()">Calculate</button>
+    <br />
+    <div id="permutations-output"></div>
+
+    <script>
+      function permutation(elements) {
+        // Same logic as before to calculate permutations
+        // ... (refer to previous code)
+      }
+
+      function calculatePermutations() {
+        const elementsInput = document.getElementById("elements-input");
+        const elements = elementsInput.value
+          .split(",")
+          .map((element) => element.trim());
+
+        const allPermutations = permutation(elements);
+
+        const outputElement = document.getElementById("permutations-output");
+        outputElement.innerHTML = ""; // Clear previous results
+
+        if (allPermutations.length === 0) {
+          outputElement.textContent = "No permutations found.";
+        } else {
+          outputElement.innerHTML = "<b>Permutations:</b><br>";
+          for (let perm of allPermutations) {
+            outputElement.innerHTML += perm.join(", ") + "<br>";
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

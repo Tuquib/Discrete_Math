@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Permutation and Combination Calculator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .calculator {
+        background-color: #f0f0f0;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      input[type="number"] {
+        width: 60px;
+        padding: 5px;
+        margin: 5px;
+      }
+
+      button {
+        padding: 8px 16px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="calculator">
+      <h2>Permutation and Combination Calculator</h2>
+      <div>
+        <label for="n">n:</label>
+        <input type="number" id="n" />
+      </div>
+      <div>
+        <label for="r">r:</label>
+        <input type="number" id="r" />
+      </div>
+      <div>
+        <button onclick="calculatePermutation()">Permutation</button>
+        <button onclick="calculateCombination()">Combination</button>
+      </div>
+      <div id="result"></div>
+    </div>
+
+    <script>
+      function calculatePermutation() {
+        var n = parseInt(document.getElementById("n").value);
+        var r = parseInt(document.getElementById("r").value);
+
+        if (isNaN(n) || isNaN(r) || n < r) {
+          document.getElementById("result").innerHTML =
+            "Please enter valid numbers.";
+          return;
+        }
+
+        var formula =
+          "<br>Formula: P(n, r) = n! / (n - r)!<br>P(" +
+          n +
+          ", " +
+          r +
+          ") = " +
+          n +
+          "! / (" +
+          n +
+          " - " +
+          r +
+          ")!";
+
+        const permutations = (elements) => {
+          if (elements.length === 0) return [[]];
+          const firstEl = elements[0];
+          const rest = elements.slice(1);
+
+          const perm_without_first = permutations(rest);
+          const all_permutation = [];
+
+          perm_without_first.forEach((perm) => {
+            for (let i = 0; i <= perm.length; i++) {
+              const permWithFirst = [
+                ...perm.slice(0, i),
+                firstEl,
+                ...perm.slice(i),
+              ];
+              all_permutation.push(permWithFirst);
+            }
+          });
+
+          return all_permutation;
+        };
+
+        var result = factorial(n) / factorial(n - r);
+        var letter_result = permutations(["a", "b", "c"]).join("<br>");
+        document.getElementById("result").innerHTML =
+          "<br>" +
+          letter_result +
+          "<br>" +
+          formula +
+          "<br>" +
+          "<br><br>Permutation: " +
+          result;
+      }
+
+      function calculateCombination() {
+        var n = parseInt(document.getElementById("n").value);
+        var r = parseInt(document.getElementById("r").value);
+
+        if (isNaN(n) || isNaN(r) || n < r) {
+          document.getElementById("result").innerHTML =
+            "Please enter valid numbers.";
+          return;
+        }
+
+        var formula =
+          "<br>Formula: C(n, r) = n! / (r! * (n - r)!)<br>C(" +
+          n +
+          ", " +
+          r +
+          ") = " +
+          n +
+          "! / (" +
+          r +
+          "! * (" +
+          n +
+          " - " +
+          r +
+          ")!)";
+
+        const combinations = (elements) => {
+          if (elements.length === 0) return [[]];
+          const firstEl = elements[0];
+          const rest = elements.slice(1);
+
+          const combsWithoutFirst = combinations(rest);
+          const combsWithFirst = [];
+
+          combsWithoutFirst.forEach((comb) => {
+            const combWithFirst = [...comb, firstEl];
+            combsWithFirst.push(combWithFirst);
+          });
+
+          return [...combsWithoutFirst, ...combsWithFirst];
+        };
+
+        var result = factorial(n) / (factorial(r) * factorial(n - r));
+        var letter_result = combinations(["a", "b", "c"]).join("<br>");
+        document.getElementById("result").innerHTML =
+          "<br>" +
+          letter_result +
+          "<br>" +
+          formula +
+          "<br><br>Combination: " +
+          result;
+      }
+
+      function factorial(num) {
+        if (num === 0 || num === 1) return 1;
+        for (var i = num - 1; i >= 1; i--) {
+          num *= i;
+        }
+        return num;
+      }
+    </script>
+  </body>
+</html>
